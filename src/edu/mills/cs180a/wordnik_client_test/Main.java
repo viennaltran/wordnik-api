@@ -2,9 +2,10 @@ package edu.mills.cs180a.wordnik_client_test;
 
 import java.io.*;
 import java.nio.charset.*;
-import edu.mills.cs180a.wordnik.client.api.WordsApi;
-import edu.mills.cs180a.wordnik.client.invoker.ApiClient;
-import edu.mills.cs180a.wordnik.client.model.WordOfTheDay;
+import java.util.*;
+import edu.mills.cs180a.wordnik.client.api.*;
+import edu.mills.cs180a.wordnik.client.invoker.*;
+import edu.mills.cs180a.wordnik.client.model.*;
 
 public class Main {
     private static String getApiKey() throws IOException {
@@ -25,5 +26,13 @@ public class Main {
         WordsApi wordsApi = client.buildClient(WordsApi.class);
         WordOfTheDay word = wordsApi.getWordOfTheDay("2022-03-15");
         System.out.println(word);
+
+
+        WordApi wordApi = client.buildClient(WordApi.class);
+        WordObject randomWord =
+                wordsApi.getRandomWord("true", "verb", "noun", 1000, -1, 100, -1, 5, -1);
+        List<String> etymology = wordApi.getEtymologies(randomWord.getWord(), "false");
+        System.out.print(randomWord);
+        System.out.print(etymology);
     }
 }
